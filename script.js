@@ -374,8 +374,8 @@ menuModal.addEventListener('click', (e) => {
 
 // ==================== CALENDÁRIO ====================
 document.getElementById('addToCalendarBtn').addEventListener('click', function() {
-    const titulo = 'Alicia 20 Anos - Playbill';
-    const descricao = 'Um musical inesquecível para celebrar os 20 anos da Alicia!';
+    const titulo = 'Alicia 19 Anos - Playbill';
+    const descricao = 'Um musical inesquecível para celebrar os 19 anos da Alicia!';
     const local = 'QGsport&beer - Largo São José do Maranhão, 94 - Maranhã';
     const dataInicio = '20261114T220000';
     const dataFim = '20261115T010000';
