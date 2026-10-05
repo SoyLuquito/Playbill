@@ -28,7 +28,6 @@
         <source src="audio/musica.ogg" type="audio/ogg">
     </audio>
 
-    <!-- Botão flutuante de música -->
     <button id="musicToggle" class="music-toggle playing" aria-label="Pausar música">
         <i class="fas fa-music"></i>
     </button>
@@ -84,9 +83,9 @@
             <i class="fas fa-book-open icon-card"></i>
             <h2>CARDÁPIO</h2>
             <p>Confira as opções de comidas e bebidas do QGsport&amp;beer</p>
-            <a href="cardapio.pdf" target="_blank" rel="noopener noreferrer" class="mood-link">
-                <i class="fas fa-file-pdf"></i> Abrir Cardápio
-            </a>
+            <button class="mood-link" id="openMenuBtn">
+                <i class="fas fa-utensils"></i> Ver Cardápio
+            </button>
         </div>
 
         <!-- ========== CALENDÁRIO ========== -->
@@ -111,12 +110,12 @@
             <p>Quer presentear a aniversariante? Escolha como:</p>
 
             <div class="presente-tabs">
-                <button class="presente-tab active" data-tab="pix"><i class="fas fa-credit-card"></i> PIX</button>
+                <button class="presente-tab" data-tab="pix"><i class="fas fa-credit-card"></i> PIX</button>
                 <button class="presente-tab" data-tab="lista"><i class="fas fa-list"></i> Lista de Presentes</button>
             </div>
 
-            <!-- ABA PIX (chave direta) -->
-            <div id="tab-pix" class="presente-section active">
+            <!-- ABA PIX -->
+            <div id="tab-pix" class="presente-section">
                 <div id="userMatchInfo" class="user-matched" style="display: none;"></div>
 
                 <div class="pix-area">
@@ -137,7 +136,7 @@
                 <div id="feedbackPresente" class="feedback-msg"></div>
             </div>
 
-            <!-- ABA LISTA DE PRESENTES (direta) -->
+            <!-- ABA LISTA DE PRESENTES -->
             <div id="tab-lista" class="presente-section">
                 <div class="presente-consulta-obs">
                     <i class="fas fa-info-circle"></i> Esta é apenas uma lista de sugestões. Os presentes não são reservados.
@@ -163,13 +162,133 @@
             </div>
         </div>
 
-        <!-- ========== FOOTER ========== -->
-        <div class="footer-playbill reveal">
-            <p>Entrada franca · A casa é sua</p>
-            <div class="hashtag-playbill">#Alicia20 #Playbill</div>
-        </div>
-
     </main>
+
+    <!-- ========== MODAL CARDÁPIO ========== -->
+    <div id="menuModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closeMenu">&times;</span>
+            <i class="fas fa-utensils modal-icon"></i>
+            <h2>CARDÁPIO</h2>
+            <p class="modal-sub">QGsport&amp;beer</p>
+
+            <div class="menu-category">
+                <h3><i class="fas fa-beer"></i> Cervejas</h3>
+                <div class="menu-item"><span>Heineken (Long Neck)</span><span>R$ 13,00</span></div>
+                <div class="menu-item"><span>Budweiser (Long Neck)</span><span>R$ 12,00</span></div>
+                <div class="menu-item"><span>Stella Artois (Long Neck)</span><span>R$ 12,00</span></div>
+                <div class="menu-item"><span>Corona (Long Neck)</span><span>R$ 13,00</span></div>
+                <div class="menu-item"><span>Skol Beats (Long Neck)</span><span>R$ 17,00</span></div>
+                <div class="menu-item"><span>Skol GT (Long Neck)</span><span>R$ 17,00</span></div>
+                <div class="menu-item"><span>Smirnoff Ice (Long Neck)</span><span>R$ 17,00</span></div>
+                <div class="menu-item"><span>Original (600 ml)</span><span>R$ 20,00</span></div>
+                <div class="menu-item"><span>Heineken (600 ml)</span><span>R$ 22,00</span></div>
+                <div class="menu-item"><span>Balde c/ 3 Original (600 ml)</span><span>R$ 55,00</span></div>
+                <div class="menu-item"><span>Balde c/ 3 Heineken (600 ml)</span><span>R$ 60,00</span></div>
+                <div class="menu-item"><span>Balde c/ 5 Heineken (Long Neck)</span><span>R$ 60,00</span></div>
+                <div class="menu-item"><span>Balde c/ 5 Corona (Long Neck)</span><span>R$ 60,00</span></div>
+                <div class="menu-item"><span>Balde c/ 5 Budweiser/Stella (Long Neck)</span><span>R$ 55,00</span></div>
+            </div>
+
+            <div class="menu-category">
+                <h3><i class="fas fa-tint"></i> Bebidas</h3>
+                <div class="menu-item"><span>Refrigerante (Lata)</span><span>R$ 8,00</span></div>
+                <div class="menu-item"><span>Suco (Lata)</span><span>R$ 10,00</span></div>
+                <div class="menu-item"><span>Schweppes (Lata)</span><span>R$ 10,00</span></div>
+                <div class="menu-item"><span>Água de Coco ou Gelo de Coco (Caixinha)</span><span>R$ 5,00</span></div>
+                <div class="menu-item"><span>Red Bull (Sabores)</span><span>R$ 20,00</span></div>
+                <div class="menu-item"><span>Bally (Sabores)</span><span>R$ 12,00</span></div>
+                <div class="menu-item"><span>Tônica</span><span>R$ 10,00</span></div>
+                <div class="menu-item"><span>Suco Natural (500 ml)</span><span>R$ 12,00</span></div>
+                <div class="menu-item"><span>Suco Natural (Jarra)</span><span>R$ 30,00</span></div>
+            </div>
+
+            <div class="menu-category">
+                <h3><i class="fas fa-cocktail"></i> Drinks</h3>
+                <div class="menu-item"><span>Absolut (Dose)</span><span>R$ 20,00</span></div>
+                <div class="menu-item"><span>Smirnoff (Dose)</span><span>R$ 15,00</span></div>
+                <div class="menu-item"><span>Jack Daniel's (Dose)</span><span>R$ 40,00</span></div>
+                <div class="menu-item"><span>Red Label (Dose)</span><span>R$ 30,00</span></div>
+                <div class="menu-item"><span>Black Label (Dose)</span><span>R$ 40,00</span></div>
+                <div class="menu-item"><span>José Cuervo (Dose)</span><span>R$ 25,00</span></div>
+                <div class="menu-item"><span>Licor 43 (Dose)</span><span>R$ 25,00</span></div>
+                <div class="menu-item"><span>Cabaré (Dose)</span><span>R$ 10,00</span></div>
+                <div class="menu-item"><span>Aperol (Dose)</span><span>R$ 15,00</span></div>
+                <div class="menu-item"><span>Caipifruta (Smirnoff/Saque + Fruta)</span><span>R$ 35,00</span></div>
+                <div class="menu-item"><span>Caipirinha (Velho Barreiro/51 + Fruta)</span><span>R$ 30,00</span></div>
+                <div class="menu-item"><span>Gin Tropical (Gin + Energético + Frutas)</span><span>R$ 35,00</span></div>
+                <div class="menu-item"><span>Gin Tônica (Gin + Água Tônica + Frutas)</span><span>R$ 30,00</span></div>
+                <div class="menu-item"><span>Chevette</span><span>R$ 20,00</span></div>
+                <div class="menu-item"><span>Xeque Mate</span><span>R$ 20,00</span></div>
+            </div>
+
+            <div class="menu-category">
+                <h3><i class="fas fa-candy-cane"></i> Chiclete / Bala</h3>
+                <div class="menu-item"><span>Trident</span><span>R$ 5,00</span></div>
+                <div class="menu-item"><span>Halls</span><span>R$ 4,00</span></div>
+            </div>
+
+            <div class="menu-category">
+                <h3><i class="fas fa-hamburger"></i> Lanches</h3>
+                <div class="menu-item">
+                    <span>Q.G. Simples<br><small>Pão + Hambúrguer caseiro + Queijo Cheddar Polenghi + Molho especial</small></span>
+                    <span>R$ 28,00</span>
+                </div>
+                <div class="menu-item">
+                    <span>Q.G. SP<br><small>Pão + Hambúrguer caseiro + Cheddar Polenghi + Molho especial + Cebola + Tomate + Alface americana</small></span>
+                    <span>R$ 30,00</span>
+                </div>
+                <div class="menu-item">
+                    <span>Q.G. Especial<br><small>Pão + Hambúrguer caseiro + Cheddar Polenghi + Molho + Bacon + Cebola + Tomate + Alface americana</small></span>
+                    <span>R$ 33,00</span>
+                </div>
+                <p class="menu-obs">Lanches acompanhados de batata frita — acréscimo R$ 12,00</p>
+            </div>
+
+            <div class="menu-category">
+                <h3><i class="fas fa-utensils"></i> Porções</h3>
+                <div class="menu-item"><span>Calabresa Acebolada</span><span>R$ 35,00</span></div>
+                <div class="menu-item"><span>Salgados (20 unidades)<br><small>Coxinha / Bolinho de queijo / Risole</small></span><span>R$ 35,00</span></div>
+                <div class="menu-item"><span>Batata Frita Simples</span><span>R$ 30,00</span></div>
+                <div class="menu-item"><span>Batata Frita com Queijo e Bacon</span><span>R$ 40,00</span></div>
+            </div>
+
+            <div class="menu-category">
+                <h3><i class="fas fa-wine-bottle"></i> Combos</h3>
+                <div class="menu-item"><span>Absolut + 4 Red Bull</span><span>R$ 290,00</span></div>
+                <div class="menu-item"><span>Absolut + 4 Bally</span><span>R$ 270,00</span></div>
+                <div class="menu-item"><span>Absolut + Jarra de Suco</span><span>R$ 250,00</span></div>
+                <div class="menu-item"><span>Smirnoff + 4 Red Bull</span><span>R$ 200,00</span></div>
+                <div class="menu-item"><span>Smirnoff + 4 Bally</span><span>R$ 180,00</span></div>
+                <div class="menu-item"><span>Smirnoff + Jarra de Suco</span><span>R$ 160,00</span></div>
+                <div class="menu-item"><span>Red Label + 4 Red Bull</span><span>R$ 320,00</span></div>
+                <div class="menu-item"><span>Red Label + 4 Bally</span><span>R$ 290,00</span></div>
+                <div class="menu-item"><span>Black Label + 4 Red Bull</span><span>R$ 430,00</span></div>
+                <div class="menu-item"><span>Black Label + 4 Bally</span><span>R$ 410,00</span></div>
+                <div class="menu-item"><span>Gold Label + 4 Red Bull</span><span>R$ 580,00</span></div>
+                <div class="menu-item"><span>Gold Label + 4 Bally</span><span>R$ 550,00</span></div>
+                <div class="menu-item"><span>Jack Daniel's + 4 Red Bull</span><span>R$ 410,00</span></div>
+                <div class="menu-item"><span>Jack Daniel's + 4 Bally</span><span>R$ 390,00</span></div>
+                <div class="menu-item"><span>Tanqueray + 4 Red Bull</span><span>R$ 370,00</span></div>
+                <div class="menu-item"><span>Tanqueray + 4 Tônica</span><span>R$ 340,00</span></div>
+                <div class="menu-item"><span>Bombay + 4 Red Bull</span><span>R$ 370,00</span></div>
+                <div class="menu-item"><span>Bombay + 4 Tônica</span><span>R$ 340,00</span></div>
+                <div class="menu-item"><span>Beefeater + 4 Red Bull</span><span>R$ 330,00</span></div>
+                <div class="menu-item"><span>Beefeater + 4 Tônica</span><span>R$ 300,00</span></div>
+                <div class="menu-item"><span>Beefeater Pink + 4 Red Bull</span><span>R$ 350,00</span></div>
+                <div class="menu-item"><span>Beefeater Pink + 4 Tônica</span><span>R$ 320,00</span></div>
+            </div>
+
+            <div class="menu-category">
+                <h3><i class="fas fa-fire"></i> Extras (Narguilé)</h3>
+                <div class="menu-item"><span>Aluguel</span><span>R$ 40,00</span></div>
+                <div class="menu-item"><span>Essências</span><span>R$ 25,00</span></div>
+                <div class="menu-item"><span>Carvão (unidade)</span><span>R$ 3,00</span></div>
+                <div class="menu-item"><span>Alumínio (unidade)</span><span>R$ 2,00</span></div>
+            </div>
+
+        </div>
+    </div>
 
     <script type="module" src="script.js"></script>
 </body>

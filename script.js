@@ -1,7 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
 import { getFirestore, collection, addDoc, query, where, getDocs, updateDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
 
-// ==================== MOSAICO DE FUNDO (gera 1x, não muda no scroll) ====================
+// ==================== MOSAICO DE FUNDO ====================
 (function gerarMosaico() {
     const grid = document.getElementById('mosaicGrid');
     const bg = document.querySelector('.mosaic-bg');
@@ -15,9 +15,7 @@ import { getFirestore, collection, addDoc, query, where, getDocs, updateDoc, ser
 
     function getTileSize() {
         const isMobile = window.innerWidth <= 640;
-        return isMobile
-            ? { w: 110, h: 160 }
-            : { w: 180, h: 260 };
+        return isMobile ? { w: 110, h: 160 } : { w: 180, h: 260 };
     }
 
     function embaralhar(array) {
@@ -31,13 +29,8 @@ import { getFirestore, collection, addDoc, query, where, getDocs, updateDoc, ser
 
     function build() {
         const { w: tileW, h: tileH } = getTileSize();
-
         const cols = Math.ceil(window.innerWidth / tileW) + 1;
-
-        const docHeight = Math.max(
-            document.body.scrollHeight,
-            document.documentElement.scrollHeight
-        );
+        const docHeight = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
         const rows = Math.ceil(docHeight / tileH) + 1;
         const totalTiles = cols * rows;
 
@@ -69,10 +62,8 @@ import { getFirestore, collection, addDoc, query, where, getDocs, updateDoc, ser
         grid.appendChild(fragment);
     }
 
-    // Gera uma única vez após o carregamento completo
     window.addEventListener('load', build);
 
-    // Recalcula apenas em redimensionamento/rotação (não em scroll)
     let resizeTimer;
     window.addEventListener('resize', () => {
         clearTimeout(resizeTimer);
@@ -251,7 +242,7 @@ document.getElementById('btnEnviarMsg').addEventListener('click', async () => {
     }
 });
 
-// ==================== LISTA DE PRESENTES (render direto) ====================
+// ==================== LISTA DE PRESENTES ====================
 function renderizarListaPresentes() {
     const container = document.getElementById('presenteListaContainer');
     const presentes = listaPresentes.Alicia || [];
@@ -340,15 +331,45 @@ nomeInput.addEventListener('keypress', (e) => {
     if (e.key === 'Enter') btnConfirmar.click();
 });
 
-// ==================== TABS ====================
+// ==================== TABS PRESENTES (sem padrão) ====================
 document.querySelectorAll('.presente-tab').forEach(tab => {
     tab.addEventListener('click', () => {
-        document.querySelectorAll('.presente-tab').forEach(t => t.classList.remove('active'));
-        tab.classList.add('active');
+        const wasActive = tab.classList.contains('active');
         const target = tab.dataset.tab;
+
+        // Se clicar na aba já ativa, fecha tudo
+        if (wasActive) {
+            tab.classList.remove('active');
+            document.getElementById(`tab-${target}`).classList.remove('active');
+            return;
+        }
+
+        // Senão, ativa só essa
+        document.querySelectorAll('.presente-tab').forEach(t => t.classList.remove('active'));
         document.querySelectorAll('.presente-section').forEach(s => s.classList.remove('active'));
+        tab.classList.add('active');
         document.getElementById(`tab-${target}`).classList.add('active');
     });
+});
+
+// ==================== MODAL CARDÁPIO ====================
+const menuModal = document.getElementById('menuModal');
+const openMenuBtn = document.getElementById('openMenuBtn');
+const closeMenuBtn = document.getElementById('closeMenu');
+
+function abrirMenu() {
+    menuModal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+function fecharMenu() {
+    menuModal.classList.remove('active');
+    document.body.style.overflow = '';
+}
+
+openMenuBtn.addEventListener('click', abrirMenu);
+closeMenuBtn.addEventListener('click', fecharMenu);
+menuModal.addEventListener('click', (e) => {
+    if (e.target === menuModal) fecharMenu();
 });
 
 // ==================== CALENDÁRIO ====================
@@ -423,10 +444,9 @@ checkReveal();
     const btn = document.getElementById('musicToggle');
     if (!audio || !btn) return;
 
-    const START_TIME = 35; // 00:35
+    const START_TIME = 35;
     audio.volume = 0.4;
 
-    // Função que inicia do tempo desejado
     function startFrom35() {
         try {
             if (audio.currentTime < START_TIME) {
@@ -436,19 +456,15 @@ checkReveal();
         audio.play().then(() => {
             btn.classList.add('playing');
         }).catch(() => {
-            // Autoplay bloqueado — remove estado visual
             btn.classList.remove('playing');
         });
     }
 
-    // Tenta tocar assim que possível
     function tryAutoplay() {
-        // Garante que o metadata já carregou para setar o currentTime
         if (audio.readyState >= 1) {
             startFrom35();
         } else {
             audio.addEventListener('loadedmetadata', startFrom35, { once: true });
-            // Fallback: tenta de novo em alguns instantes
             setTimeout(() => {
                 if (audio.paused) startFrom35();
             }, 300);
@@ -457,7 +473,6 @@ checkReveal();
 
     tryAutoplay();
 
-    // Se o navegador bloquear, dispara no primeiro clique/toque na página
     const unlock = () => {
         if (audio.paused) startFrom35();
         document.removeEventListener('click', unlock);
@@ -466,15 +481,13 @@ checkReveal();
     document.addEventListener('click', unlock);
     document.addEventListener('touchstart', unlock);
 
-    // Quando o loop reiniciar, pula de novo pro 00:35
     audio.addEventListener('ended', () => {
         audio.currentTime = START_TIME;
         audio.play();
     });
 
-    // Botão toggle
     btn.addEventListener('click', (e) => {
-        e.stopPropagation(); // evita disparar o unlock junto
+        e.stopPropagation();
         if (audio.paused) {
             if (audio.currentTime < START_TIME) {
                 audio.currentTime = START_TIME;
