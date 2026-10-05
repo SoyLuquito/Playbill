@@ -1,7 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
 import { getFirestore, collection, addDoc, query, where, getDocs, updateDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
 
-// ==================== MOSAICO DE FUNDO ====================
+// ==================== MOSAICO DE FUNDO (gera 1x, não muda no scroll) ====================
 (function gerarMosaico() {
     const grid = document.getElementById('mosaicGrid');
     const bg = document.querySelector('.mosaic-bg');
@@ -13,7 +13,6 @@ import { getFirestore, collection, addDoc, query, where, getDocs, updateDoc, ser
         imagens.push(`img/img${i}.png`);
     }
 
-    // Tamanhos: desktop 180x260 / mobile 110x160
     function getTileSize() {
         const isMobile = window.innerWidth <= 640;
         return isMobile
@@ -21,7 +20,6 @@ import { getFirestore, collection, addDoc, query, where, getDocs, updateDoc, ser
             : { w: 180, h: 260 };
     }
 
-    // Embaralha (Fisher-Yates)
     function embaralhar(array) {
         const arr = [...array];
         for (let i = arr.length - 1; i > 0; i--) {
@@ -71,8 +69,10 @@ import { getFirestore, collection, addDoc, query, where, getDocs, updateDoc, ser
         grid.appendChild(fragment);
     }
 
+    // Gera uma única vez após o carregamento completo
     window.addEventListener('load', build);
 
+    // Recalcula apenas em redimensionamento/rotação (não em scroll)
     let resizeTimer;
     window.addEventListener('resize', () => {
         clearTimeout(resizeTimer);
@@ -119,63 +119,34 @@ function atualizarUserInfo() {
     }
 }
 
-// ==================== PIX - ALICIA (só chave) ====================
-const pixKeyAlicia = "58623800869";
+// ==================== PIX - ALICIA ====================
+const pixKeyAlicia = "474.299.898-70";
 
 // ==================== LISTA DE PRESENTES ====================
 const listaPresentes = {
     Alicia: [
-        { id: 'a1', nome: 'Perfume', detalhe: 'Doces' },
-        { id: 'a2', nome: 'Camisa / Blusa', detalhe: 'Tamanho M' },
+        { id: 'a1', nome: 'Perfumes', detalhe: 'Não doces' },
+        { id: 'a2', nome: 'Roupas', detalhe: 'M ou P' },
         { id: 'a3', nome: 'Bijuteria', detalhe: 'Dourada' },
-        { id: 'a4', nome: 'Livros', detalhe: '' },
-        { id: 'a5', nome: 'Kit de Maquiagem', detalhe: '' }
+        { id: 'a4', nome: 'Chocolate e doces', detalhe: '' },
+        { id: 'a5', nome: 'Livros', detalhe: '' }
     ]
 };
 
 const iconesMap = {
-    'Perfume': 'fa-spray-can-sparkles',
-    'Camisa / Blusa': 'fa-tshirt',
+    'Perfumes': 'fa-spray-can-sparkles',
+    'Roupas': 'fa-tshirt',
     'Bijuteria': 'fa-gem',
-    'Livros': 'fa-book',
-    'Kit de Maquiagem': 'fa-wand-magic-sparkles'
+    'Chocolate e doces': 'fa-cookie-bite',
+    'Livros': 'fa-book'
 };
 
 // ==================== VARIÁVEIS ====================
-let selectedPersonPix = null;
-let selectedPersonLista = null;
-
-const pixArea = document.getElementById('pixArea');
-const pixLabel = document.getElementById('pixLabel');
 const msgArea = document.getElementById('msgArea');
 const toggleMsgBtn = document.getElementById('toggleMsgBtn');
 const feedbackPresente = document.getElementById('feedbackPresente');
 
-// ==================== PIX: SÓ MOSTRAR CHAVE ====================
-function resetarSelecaoPix() {
-    selectedPersonPix = null;
-    pixArea.style.display = 'none';
-    msgArea.classList.remove('show');
-    toggleMsgBtn.innerHTML = '<i class="fas fa-comment"></i> Quero deixar uma mensagem';
-    document.getElementById('nomePresente').value = '';
-    document.getElementById('mensagemPresente').value = '';
-    feedbackPresente.textContent = '';
-    document.getElementById('chooseAlicia').classList.remove('active');
-}
-
-document.getElementById('chooseAlicia').addEventListener('click', () => {
-    if (selectedPersonPix === 'Alicia') {
-        resetarSelecaoPix();
-    } else {
-        resetarSelecaoPix();
-        selectedPersonPix = 'Alicia';
-        document.getElementById('chooseAlicia').classList.add('active');
-        pixLabel.innerHTML = `<i class="fas fa-gift"></i> Pix para Alicia - Chave: <strong>${pixKeyAlicia}</strong>`;
-        pixArea.style.display = 'block';
-    }
-});
-
-// Copiar PIX
+// ==================== COPIAR PIX ====================
 document.getElementById('copyPixBtn').addEventListener('click', () => {
     navigator.clipboard.writeText(pixKeyAlicia);
     const btn = document.getElementById('copyPixBtn');
@@ -206,11 +177,6 @@ document.getElementById('btnEnviarMsg').addEventListener('click', async () => {
     let nome = document.getElementById('nomePresente').value.trim();
     const mensagem = document.getElementById('mensagemPresente').value.trim();
 
-    if (!selectedPersonPix) {
-        feedbackPresente.textContent = 'Escolha a aniversariante primeiro';
-        feedbackPresente.className = 'feedback-msg error';
-        return;
-    }
     if (!nome && userNome) {
         nome = userNome;
         document.getElementById('nomePresente').value = nome;
@@ -238,7 +204,7 @@ document.getElementById('btnEnviarMsg').addEventListener('click', async () => {
         const presenteData = {
             nome: nome,
             deviceId: userDeviceId,
-            presentePara: selectedPersonPix,
+            presentePara: 'Alicia',
             mensagem: mensagem,
             timestamp: serverTimestamp(),
             tipo: 'pix'
@@ -247,7 +213,7 @@ document.getElementById('btnEnviarMsg').addEventListener('click', async () => {
         if (!querySnapshot.empty) {
             await updateDoc(querySnapshot.docs[0].ref, {
                 presente: {
-                    para: selectedPersonPix,
+                    para: 'Alicia',
                     mensagem: mensagem,
                     timestamp: new Date()
                 }
@@ -267,7 +233,7 @@ document.getElementById('btnEnviarMsg').addEventListener('click', async () => {
 
         await addDoc(collection(db, "presentes"), presenteData);
 
-        feedbackPresente.textContent = `Mensagem enviada para ${selectedPersonPix}! Muito obrigado!`;
+        feedbackPresente.textContent = `Mensagem enviada para Alicia! Muito obrigado!`;
         feedbackPresente.className = 'feedback-msg success';
 
         document.getElementById('nomePresente').value = '';
@@ -285,21 +251,11 @@ document.getElementById('btnEnviarMsg').addEventListener('click', async () => {
     }
 });
 
-// ==================== LISTA DE PRESENTES ====================
-function renderizarListaPresentes(pessoa) {
+// ==================== LISTA DE PRESENTES (render direto) ====================
+function renderizarListaPresentes() {
     const container = document.getElementById('presenteListaContainer');
-    const presentes = listaPresentes[pessoa] || [];
+    const presentes = listaPresentes.Alicia || [];
     container.innerHTML = '';
-
-    if (presentes.length === 0) {
-        container.innerHTML = `
-            <div class="lista-vazia" style="grid-column: 1 / -1;">
-                <i class="fas fa-box-open"></i>
-                <p>Nenhum presente cadastrado ainda para ${pessoa}.</p>
-            </div>
-        `;
-        return;
-    }
 
     presentes.forEach(item => {
         const div = document.createElement('div');
@@ -313,19 +269,7 @@ function renderizarListaPresentes(pessoa) {
         container.appendChild(div);
     });
 }
-
-document.getElementById('chooseAliciaLista').addEventListener('click', () => {
-    if (selectedPersonLista === 'Alicia') {
-        selectedPersonLista = null;
-        document.getElementById('chooseAliciaLista').classList.remove('active');
-        document.getElementById('listaPresentesArea').style.display = 'none';
-        return;
-    }
-    selectedPersonLista = 'Alicia';
-    document.getElementById('chooseAliciaLista').classList.add('active');
-    document.getElementById('listaPresentesArea').style.display = 'block';
-    renderizarListaPresentes('Alicia');
-});
+renderizarListaPresentes();
 
 // ==================== CONFIRMAR PRESENÇA ====================
 window.confirmarPresenca = async function(nome, deviceId) {
@@ -411,7 +355,7 @@ document.querySelectorAll('.presente-tab').forEach(tab => {
 document.getElementById('addToCalendarBtn').addEventListener('click', function() {
     const titulo = 'Alicia 20 Anos - Playbill';
     const descricao = 'Um musical inesquecível para celebrar os 20 anos da Alicia!';
-    const local = 'Duplexx House - R. Ushikichi Kamiya, 611';
+    const local = 'QGsport&beer - Largo São José do Maranhão, 94 - Maranhã';
     const dataInicio = '20261114T220000';
     const dataFim = '20261115T010000';
     const fuso = 'America/Sao_Paulo';
@@ -450,7 +394,7 @@ END:VCALENDAR`;
 });
 
 // ==================== MAPA ====================
-const address = encodeURIComponent('R. Ushikichi Kamiya, 611');
+const address = encodeURIComponent('Largo São José do Maranhão, 94 - Maranhã');
 function openMap() {
     window.open(`https://www.google.com/maps/search/?api=1&query=${address}`, '_blank');
 }
@@ -479,26 +423,69 @@ checkReveal();
     const btn = document.getElementById('musicToggle');
     if (!audio || !btn) return;
 
-    // Tenta tocar automaticamente (a maioria dos navegadores bloqueia)
+    const START_TIME = 35; // 00:35
     audio.volume = 0.4;
-    const playPromise = audio.play();
 
-    if (playPromise !== undefined) {
-        playPromise.then(() => {
+    // Função que inicia do tempo desejado
+    function startFrom35() {
+        try {
+            if (audio.currentTime < START_TIME) {
+                audio.currentTime = START_TIME;
+            }
+        } catch (e) { /* ignora */ }
+        audio.play().then(() => {
             btn.classList.add('playing');
         }).catch(() => {
-            // Autoplay bloqueado — usuário precisa clicar
+            // Autoplay bloqueado — remove estado visual
+            btn.classList.remove('playing');
         });
     }
 
-    // Toggle manual
-    btn.addEventListener('click', () => {
+    // Tenta tocar assim que possível
+    function tryAutoplay() {
+        // Garante que o metadata já carregou para setar o currentTime
+        if (audio.readyState >= 1) {
+            startFrom35();
+        } else {
+            audio.addEventListener('loadedmetadata', startFrom35, { once: true });
+            // Fallback: tenta de novo em alguns instantes
+            setTimeout(() => {
+                if (audio.paused) startFrom35();
+            }, 300);
+        }
+    }
+
+    tryAutoplay();
+
+    // Se o navegador bloquear, dispara no primeiro clique/toque na página
+    const unlock = () => {
+        if (audio.paused) startFrom35();
+        document.removeEventListener('click', unlock);
+        document.removeEventListener('touchstart', unlock);
+    };
+    document.addEventListener('click', unlock);
+    document.addEventListener('touchstart', unlock);
+
+    // Quando o loop reiniciar, pula de novo pro 00:35
+    audio.addEventListener('ended', () => {
+        audio.currentTime = START_TIME;
+        audio.play();
+    });
+
+    // Botão toggle
+    btn.addEventListener('click', (e) => {
+        e.stopPropagation(); // evita disparar o unlock junto
         if (audio.paused) {
+            if (audio.currentTime < START_TIME) {
+                audio.currentTime = START_TIME;
+            }
             audio.play();
             btn.classList.add('playing');
+            btn.setAttribute('aria-label', 'Pausar música');
         } else {
             audio.pause();
             btn.classList.remove('playing');
+            btn.setAttribute('aria-label', 'Tocar música');
         }
     });
 })();

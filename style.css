@@ -375,30 +375,6 @@ p {
 }
 
 /* ========== PIX / PRESENTES ========== */
-.choose-buttons {
-    display: flex;
-    gap: 12px;
-    justify-content: center;
-    margin: 16px 0;
-}
-.choose-btn {
-    background: #f5f0eb;
-    border: 2px solid #ddd;
-    padding: 12px 24px;
-    border-radius: 60px;
-    color: #1a1a1a;
-    font-weight: 600;
-    cursor: pointer;
-    transition: 0.2s;
-    flex: 1;
-    font-family: 'Montserrat', sans-serif;
-}
-.choose-btn.active {
-    background: #fee300;
-    border-color: #fee300;
-    color: #1a1a1a;
-}
-
 .pix-area {
     background: #faf8f5;
     border-radius: 20px;
@@ -548,18 +524,6 @@ p {
     color: #d4a017;
     margin-right: 6px;
 }
-.lista-vazia {
-    text-align: center;
-    padding: 30px 20px;
-    color: #999;
-    font-size: 0.9rem;
-}
-.lista-vazia i {
-    font-size: 2.5rem;
-    display: block;
-    margin-bottom: 12px;
-    color: #ccc;
-}
 
 /* ========== CALENDÁRIO ========== */
 .calendar-wrapper {
@@ -637,7 +601,6 @@ html { scroll-behavior: smooth; }
    ========== MOBILE (≤640px) ==========
    ============================================================ */
 @media (max-width: 640px) {
-    /* Mosaico mobile: tiles menores + sombra nas bordas */
     .mosaic-grid {
         grid-template-columns: repeat(auto-fill, 110px);
         grid-auto-rows: 160px;

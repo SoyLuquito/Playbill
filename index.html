@@ -7,7 +7,6 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
-    <!-- Favicon Playbill -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext x='50' y='75' font-size='60' text-anchor='middle' fill='%23fee300'%3E🎭%3C/text%3E%3C/svg%3E">
 
     <title>Playbill · Alicia 20 Anos</title>
@@ -24,14 +23,13 @@
     <div class="mosaic-overlay"></div>
 
     <!-- ========== ÁUDIO DE FUNDO ========== -->
-    <!-- Coloque o arquivo em audio/musica.mp3 (ou .ogg/.m4a) -->
     <audio id="bgMusic" loop preload="auto">
         <source src="audio/musica.mp3" type="audio/mpeg">
         <source src="audio/musica.ogg" type="audio/ogg">
     </audio>
 
     <!-- Botão flutuante de música -->
-    <button id="musicToggle" class="music-toggle" aria-label="Tocar música">
+    <button id="musicToggle" class="music-toggle playing" aria-label="Pausar música">
         <i class="fas fa-music"></i>
     </button>
 
@@ -49,7 +47,7 @@
             <h1 class="title-playbill">ALICIA</h1>
             <div class="age-number">20 ANOS</div>
             <div class="event-date-playbill">14/11 · 22h · Sábado</div>
-            <div class="venue-playbill">Duplexx House</div>
+            <div class="venue-playbill">QGsport&amp;beer</div>
         </div>
 
         <!-- ========== SOIRÉE ========== -->
@@ -64,7 +62,8 @@
         <div class="info-card reveal">
             <i class="fas fa-tshirt icon-card"></i>
             <h2>DRESS CODE</h2>
-            <a href="https://pin.it/5OZvAR1Ru" target="_blank" class="mood-link" rel="noopener noreferrer">
+            <p>Para se inspirar!</p>
+            <a href="https://pin.it/50rVElxWz" target="_blank" class="mood-link" rel="noopener noreferrer">
                 <i class="fas fa-palette"></i> Moodboard
             </a>
         </div>
@@ -73,11 +72,21 @@
         <div class="info-card reveal" id="map">
             <i class="fas fa-location-dot icon-card"></i>
             <h2>ENDEREÇO</h2>
-            <p>Duplexx House</p>
-            <p class="address-playbill">R. Ushikichi Kamiya, 611</p>
+            <p>QGsport&amp;beer</p>
+            <p class="address-playbill">Largo São José do Maranhão, 94 - Maranhã</p>
             <div class="interactive-card" id="mapTrigger">
                 <i class="fas fa-map-marked-alt"></i> Abrir no Google Maps
             </div>
+        </div>
+
+        <!-- ========== CARDÁPIO ========== -->
+        <div class="info-card reveal" id="cardapio">
+            <i class="fas fa-book-open icon-card"></i>
+            <h2>CARDÁPIO</h2>
+            <p>Confira as opções de comidas e bebidas do QGsport&amp;beer</p>
+            <a href="cardapio.pdf" target="_blank" rel="noopener noreferrer" class="mood-link">
+                <i class="fas fa-file-pdf"></i> Abrir Cardápio
+            </a>
         </div>
 
         <!-- ========== CALENDÁRIO ========== -->
@@ -106,17 +115,15 @@
                 <button class="presente-tab" data-tab="lista"><i class="fas fa-list"></i> Lista de Presentes</button>
             </div>
 
-            <!-- ABA PIX -->
+            <!-- ABA PIX (chave direta) -->
             <div id="tab-pix" class="presente-section active">
                 <div id="userMatchInfo" class="user-matched" style="display: none;"></div>
 
-                <div class="choose-buttons">
-                    <button id="chooseAlicia" class="choose-btn"><i class="fas fa-crown"></i> Alicia</button>
-                </div>
-
-                <div id="pixArea" class="pix-area" style="display: none;">
-                    <div id="pixLabel" class="pix-label"></div>
-                    <button id="copyPixBtn" class="copy-btn"><i class="fas fa-copy"></i> Copiar PIX</button>
+                <div class="pix-area">
+                    <div id="pixLabel" class="pix-label">
+                        <i class="fas fa-gift"></i> Pix para Alicia - Chave: <strong>474.299.898-70</strong>
+                    </div>
+                    <button id="copyPixBtn" class="copy-btn"><i class="fas fa-copy"></i> Copiar Chave PIX</button>
                 </div>
 
                 <button id="toggleMsgBtn" class="toggle-msg"><i class="fas fa-comment"></i> Quero deixar uma mensagem</button>
@@ -130,7 +137,7 @@
                 <div id="feedbackPresente" class="feedback-msg"></div>
             </div>
 
-            <!-- ABA LISTA DE PRESENTES -->
+            <!-- ABA LISTA DE PRESENTES (direta) -->
             <div id="tab-lista" class="presente-section">
                 <div class="presente-consulta-obs">
                     <i class="fas fa-info-circle"></i> Esta é apenas uma lista de sugestões. Os presentes não são reservados.
@@ -138,12 +145,8 @@
 
                 <div id="userMatchInfoLista" class="user-matched" style="display: none;"></div>
 
-                <div class="choose-buttons">
-                    <button id="chooseAliciaLista" class="choose-btn"><i class="fas fa-crown"></i> Alicia</button>
-                </div>
-
-                <div id="listaPresentesArea" style="display: none;">
-                    <div id="presenteListaContainer" class="presente-lista"></div>
+                <div class="presente-lista" id="presenteListaContainer">
+                    <!-- Inserido via JavaScript -->
                 </div>
             </div>
         </div>
