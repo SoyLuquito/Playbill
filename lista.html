@@ -91,12 +91,16 @@
             margin-top: 12px;
             display: inline-block;
             background: #1a1a1a;
-            padding: 5px 16px;
+            padding: 6px 20px;
             border-radius: 60px;
-            font-size: 0.7rem;
-            font-weight: 600;
+            font-size: 0.8rem;
+            font-weight: 700;
             color: #fee300;
-            letter-spacing: 1px;
+            letter-spacing: 1.5px;
+        }
+
+        .stats i {
+            margin-right: 6px;
         }
 
         /* ========== TOOLBAR ========== */
@@ -239,7 +243,7 @@
         .lista-simples {
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 10px;
         }
 
         .item-linha {
@@ -258,33 +262,39 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 14px 16px;
+            padding: 16px 18px;
             cursor: pointer;
+            gap: 12px;
         }
 
         .item-nome {
             font-family: 'Playfair Display', serif;
-            font-size: 1.05rem;
+            font-size: 1.1rem;
             font-weight: 600;
             color: #1a1a1a;
             display: flex;
             align-items: center;
             gap: 10px;
-            flex-wrap: wrap;
+            flex: 1;
+            min-width: 0;
+            line-height: 1.3;
+            word-break: break-word;
         }
 
         .item-nome i {
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             color: #d4a017;
+            flex-shrink: 0;
         }
 
         .status-icons {
             display: flex;
-            gap: 8px;
+            gap: 10px;
+            flex-shrink: 0;
         }
 
         .status-icons i {
-            font-size: 0.95rem;
+            font-size: 1rem;
         }
 
         .fa-calendar-check {
@@ -297,10 +307,10 @@
 
         .item-detalhes {
             display: none;
-            padding: 12px 16px;
+            padding: 14px 18px;
             border-top: 1px solid #e8e0d8;
             background: #ffffff;
-            font-size: 0.75rem;
+            font-size: 0.8rem;
         }
 
         .item-detalhes.show {
@@ -310,36 +320,39 @@
         .detalhe-info {
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 10px;
         }
 
         .detalhe-info span {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
             color: #555;
+            line-height: 1.4;
         }
 
         .detalhe-info i {
-            width: 18px;
+            width: 20px;
             color: #d4a017;
-            font-size: 0.7rem;
+            font-size: 0.75rem;
+            flex-shrink: 0;
         }
 
         .mensagem-box {
-            margin-top: 8px;
-            padding: 10px 12px;
+            margin-top: 4px;
+            padding: 12px 14px;
             background: rgba(254, 227, 0, 0.12);
             border-left: 3px solid #fee300;
             border-radius: 8px;
             color: #333;
             font-style: italic;
-            font-size: 0.75rem;
+            font-size: 0.8rem;
+            line-height: 1.5;
         }
 
         .mensagem-box i {
             color: #d4a017;
-            margin-right: 4px;
+            margin-right: 6px;
         }
 
         .sem-resultados {
@@ -366,16 +379,135 @@
             padding-top: 14px;
         }
 
-        @media (max-width: 480px) {
+        /* ============================================================
+           ========== MOBILE (≤640px) — LISTA MELHORADA ==========
+           ============================================================ */
+        @media (max-width: 640px) {
             body { padding: 8px; }
-            .playbill-header { margin: -8px -8px 12px; padding: 14px 16px 10px; }
-            .playbill-header .playbill-title { font-size: 1.6rem; letter-spacing: 4px; }
-            .playbill-header .playbill-sub { font-size: 0.6rem; letter-spacing: 3px; }
-            .header { padding: 16px 12px; }
-            .header h1 { font-size: 1.3rem; }
-            .item-nome { font-size: 0.95rem; }
-            .item-resumo { padding: 12px 14px; }
-            .sort-btn { padding: 8px 12px; font-size: 0.65rem; }
+
+            .playbill-header {
+                margin: -8px -8px 12px;
+                padding: 14px 16px 10px;
+            }
+            .playbill-header .playbill-title {
+                font-size: 1.6rem;
+                letter-spacing: 4px;
+            }
+            .playbill-header .playbill-sub {
+                font-size: 0.6rem;
+                letter-spacing: 3px;
+            }
+
+            .header {
+                padding: 18px 14px;
+                margin-bottom: 14px;
+            }
+            .header h1 { font-size: 1.35rem; }
+            .header p { font-size: 0.7rem; }
+            .stats {
+                font-size: 0.75rem;
+                padding: 6px 16px;
+            }
+
+            .toolbar {
+                padding: 14px 12px;
+                margin-bottom: 12px;
+            }
+            .search-input {
+                padding: 11px 14px 11px 40px;
+                font-size: 0.85rem;
+            }
+            .filter-row {
+                gap: 6px;
+            }
+            .sort-btn {
+                padding: 9px 10px;
+                font-size: 0.62rem;
+                gap: 4px;
+            }
+            .refresh-btn {
+                padding: 12px;
+                font-size: 0.75rem;
+            }
+
+            .lista-container {
+                padding: 10px;
+                border-radius: 20px;
+            }
+
+            .lista-simples {
+                gap: 8px;
+            }
+
+            .item-linha {
+                border-radius: 16px;
+            }
+
+            /* RESUME MAIS ESPAÇOSO NO MOBILE */
+            .item-resumo {
+                padding: 16px 16px;
+                gap: 14px;
+            }
+
+            .item-nome {
+                font-size: 1.05rem;
+                gap: 12px;
+                letter-spacing: 0.2px;
+            }
+
+            .item-nome i {
+                font-size: 0.95rem;
+            }
+
+            .status-icons {
+                gap: 12px;
+            }
+
+            .status-icons i {
+                font-size: 1.05rem;
+            }
+
+            /* DETALHES MAIS ESPAÇADOS */
+            .item-detalhes {
+                padding: 16px 16px 18px;
+                font-size: 0.82rem;
+            }
+
+            .detalhe-info {
+                gap: 12px;
+            }
+
+            .detalhe-info span {
+                gap: 12px;
+                line-height: 1.45;
+            }
+
+            .detalhe-info i {
+                width: 22px;
+                font-size: 0.8rem;
+            }
+
+            .mensagem-box {
+                padding: 12px 14px;
+                font-size: 0.82rem;
+                line-height: 1.55;
+                margin-top: 6px;
+            }
+        }
+
+        /* ============================================================
+           ========== MOBILE PEQUENO (≤380px) ==========
+           ============================================================ */
+        @media (max-width: 380px) {
+            .item-nome {
+                font-size: 0.98rem;
+            }
+            .item-resumo {
+                padding: 14px 14px;
+            }
+            .item-detalhes {
+                padding: 14px 14px 16px;
+            }
         }
     </style>
 </head>
@@ -391,7 +523,9 @@
         <div class="header">
             <h1><i class="fas fa-ticket-alt"></i> Convidados</h1>
             <p>19 de Novembro · 22h · QGsport&amp;beer</p>
-            <div class="stats" id="statsCounter">Carregando...</div>
+            <div class="stats" id="statsCounter">
+                <i class="fas fa-users"></i> 0 confirmados
+            </div>
         </div>
 
         <div class="toolbar">
@@ -502,7 +636,7 @@
             } catch (error) {
                 console.error("Erro:", error);
                 listaContent.innerHTML = `<div class="sem-resultados"><i class="fas fa-exclamation-triangle"></i><br>Erro ao carregar</div>`;
-                statsCounter.textContent = 'Erro';
+                statsCounter.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Erro';
             }
         }
 
@@ -563,11 +697,16 @@
             }
         }
 
+        function atualizarStats() {
+            const totalPresenca = todosItens.filter(i => i.presenca).length;
+            statsCounter.innerHTML = `<i class="fas fa-users"></i> ${totalPresenca} confirmado${totalPresenca !== 1 ? 's' : ''}`;
+        }
+
         function renderizarLista(lista) {
+            atualizarStats();
+
             if (lista.length === 0) {
                 listaContent.innerHTML = `<div class="sem-resultados"><i class="fas fa-users-slash"></i><br>Nenhum registro encontrado</div>`;
-                const totalPresenca = todosItens.filter(i => i.presenca).length;
-                statsCounter.innerHTML = `${todosItens.length} total · ${totalPresenca} confirmaram`;
                 return;
             }
 
@@ -611,11 +750,6 @@
             `;
 
             listaContent.innerHTML = html;
-
-            const totalExibidos = lista.length;
-            const totalPresenca = todosItens.filter(i => i.presenca).length;
-            statsCounter.innerHTML = `${totalExibidos} / ${todosItens.length} · ${totalPresenca} confirmaram`;
-
             window.toggleDetalhes = toggleDetalhes;
         }
 
