@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <meta name="theme-color" content="#fee300">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Admin | Convidados - Playbill Alicia 20</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext x='50' y='75' font-size='60' text-anchor='middle' fill='%23fee300'%3E🎭%3C/text%3E%3C/svg%3E">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: #f5f0eb;
+            color: #1a1a1a;
+            min-height: 100vh;
+            padding: 12px;
+        }
+
+        /* ========== HEADER PLAYBILL ========== */
+        .playbill-header {
+            background: #fee300;
+            padding: 18px 20px 12px;
+            text-align: center;
+            border-bottom: 4px solid #1a1a1a;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            margin: -12px -12px 16px;
+        }
+        .playbill-header .playbill-title {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            font-size: 2rem;
+            letter-spacing: 6px;
+            color: #1a1a1a;
+            text-transform: uppercase;
+            line-height: 1;
+        }
+        .playbill-header .playbill-sub {
+            font-size: 0.7rem;
+            letter-spacing: 4px;
+            color: #1a1a1a;
+            opacity: 0.7;
+            text-transform: uppercase;
+            font-weight: 600;
+            margin-top: 4px;
+        }
+
+        .admin-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 20px 16px;
+            background: #ffffff;
+            border-radius: 24px;
+            border: 1px solid #e8e0d8;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.06);
+        }
+
+        .header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem;
+            color: #1a1a1a;
+            margin-bottom: 4px;
+            letter-spacing: 1px;
+        }
+
+        .header h1 i {
+            color: #d4a017;
+        }
+
+        .header p {
+            color: #888;
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+        }
+
+        .stats {
+            margin-top: 12px;
+            display: inline-block;
+            background: #1a1a1a;
+            padding: 5px 16px;
+            border-radius: 60px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: #fee300;
+            letter-spacing: 1px;
+        }
+
+        /* ========== TOOLBAR ========== */
+        .toolbar {
+            background: #ffffff;
+            border-radius: 24px;
+            padding: 16px;
+            margin-bottom: 16px;
+            border: 1px solid #e8e0d8;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.06);
+        }
+
+        .search-box {
+            margin-bottom: 12px;
+        }
+
+        .search-input-wrapper {
+            position: relative;
+            width: 100%;
+        }
+
+        .search-input-wrapper i {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #d4a017;
+            font-size: 0.85rem;
+            pointer-events: none;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 12px 16px 12px 42px;
+            background: #f5f0eb;
+            border: 2px solid #ddd;
+            border-radius: 60px;
+            color: #1a1a1a;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.85rem;
+            outline: none;
+            transition: 0.2s;
+        }
+
+        .search-input:focus {
+            border-color: #fee300;
+            background: #fff;
+        }
+
+        .search-input::placeholder {
+            color: #999;
+        }
+
+        .filter-row {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 0;
+        }
+
+        .sort-btn {
+            background: #f5f0eb;
+            border: 2px solid #ddd;
+            padding: 10px 16px;
+            border-radius: 60px;
+            color: #1a1a1a;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.72rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: 0.2s;
+            flex: 1;
+            justify-content: center;
+        }
+
+        .sort-btn i {
+            color: #d4a017;
+        }
+
+        .sort-btn.active {
+            background: #fee300;
+            color: #1a1a1a;
+            border-color: #fee300;
+        }
+
+        .sort-btn.active i {
+            color: #1a1a1a;
+        }
+
+        .refresh-btn {
+            background: #1a1a1a;
+            border: none;
+            padding: 12px 16px;
+            border-radius: 60px;
+            color: #fee300;
+            font-size: 0.8rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            margin-top: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: 0.15s;
+        }
+        .refresh-btn:active {
+            transform: scale(0.98);
+        }
+
+        /* ========== LISTA ========== */
+        .lista-container {
+            background: #ffffff;
+            border-radius: 24px;
+            padding: 14px;
+            border: 1px solid #e8e0d8;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.06);
+            min-height: 400px;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px 20px;
+            color: #d4a017;
+            font-size: 0.85rem;
+        }
+
+        .loading i {
+            font-size: 1.8rem;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .lista-simples {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .item-linha {
+            background: #faf8f5;
+            border: 1px solid #e8e0d8;
+            border-radius: 18px;
+            transition: 0.15s;
+            overflow: hidden;
+        }
+
+        .item-linha:hover {
+            border-color: #fee300;
+        }
+
+        .item-resumo {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 16px;
+            cursor: pointer;
+        }
+
+        .item-nome {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: #1a1a1a;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .item-nome i {
+            font-size: 0.85rem;
+            color: #d4a017;
+        }
+
+        .status-icons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .status-icons i {
+            font-size: 0.95rem;
+        }
+
+        .fa-calendar-check {
+            color: #2a7a2a;
+        }
+
+        .fa-gift {
+            color: #d4a017;
+        }
+
+        .item-detalhes {
+            display: none;
+            padding: 12px 16px;
+            border-top: 1px solid #e8e0d8;
+            background: #ffffff;
+            font-size: 0.75rem;
+        }
+
+        .item-detalhes.show {
+            display: block;
+        }
+
+        .detalhe-info {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .detalhe-info span {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #555;
+        }
+
+        .detalhe-info i {
+            width: 18px;
+            color: #d4a017;
+            font-size: 0.7rem;
+        }
+
+        .mensagem-box {
+            margin-top: 8px;
+            padding: 10px 12px;
+            background: rgba(254, 227, 0, 0.12);
+            border-left: 3px solid #fee300;
+            border-radius: 8px;
+            color: #333;
+            font-style: italic;
+            font-size: 0.75rem;
+        }
+
+        .mensagem-box i {
+            color: #d4a017;
+            margin-right: 4px;
+        }
+
+        .sem-resultados {
+            text-align: center;
+            padding: 40px 20px;
+            color: #999;
+            font-size: 0.85rem;
+        }
+
+        .sem-resultados i {
+            font-size: 2rem;
+            color: #ddd;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 0.65rem;
+            color: #999;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            padding-top: 14px;
+        }
+
+        @media (max-width: 480px) {
+            body { padding: 8px; }
+            .playbill-header { margin: -8px -8px 12px; padding: 14px 16px 10px; }
+            .playbill-header .playbill-title { font-size: 1.6rem; letter-spacing: 4px; }
+            .playbill-header .playbill-sub { font-size: 0.6rem; letter-spacing: 3px; }
+            .header { padding: 16px 12px; }
+            .header h1 { font-size: 1.3rem; }
+            .item-nome { font-size: 0.95rem; }
+            .item-resumo { padding: 12px 14px; }
+            .sort-btn { padding: 8px 12px; font-size: 0.65rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ========== HEADER PLAYBILL ========== -->
+    <header class="playbill-header">
+        <div class="playbill-title">PLAYBILL</div>
+        <div class="playbill-sub">Alicia · 20 Anos</div>
+    </header>
+
+    <div class="admin-container">
+        <div class="header">
+            <h1><i class="fas fa-ticket-alt"></i> Convidados</h1>
+            <p>19 de Novembro · 22h · QGsport&amp;beer</p>
+            <div class="stats" id="statsCounter">Carregando...</div>
+        </div>
+
+        <div class="toolbar">
+            <div class="search-box">
+                <div class="search-input-wrapper">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchInput" class="search-input" placeholder="Buscar por nome...">
+                </div>
+            </div>
+
+            <div class="filter-row">
+                <button id="sortNomeBtn" class="sort-btn active"><i class="fas fa-sort-alpha-down"></i> Nome</button>
+                <button id="sortDataPresenca" class="sort-btn"><i class="fas fa-calendar-alt"></i> Confirmação</button>
+                <button id="sortDataPresente" class="sort-btn"><i class="fas fa-clock"></i> Presente</button>
+            </div>
+
+            <button id="refreshBtn" class="refresh-btn"><i class="fas fa-sync-alt"></i> Atualizar</button>
+        </div>
+
+        <div class="lista-container">
+            <div id="listaContent" class="loading">
+                <i class="fas fa-spinner fa-spin"></i>
+                Carregando...
+            </div>
+        </div>
+
+        <div class="footer">
+            Painel Administrativo
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
+        import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDobbByDr06LwZCpozM2dvEn33oHCgIVNo",
+            authDomain: "cabaret-921fc.firebaseapp.com",
+            projectId: "cabaret-921fc",
+            storageBucket: "cabaret-921fc.firebasestorage.app",
+            messagingSenderId: "586204605835",
+            appId: "1:586204605835:web:9c7fd1b42923208d84938e",
+            measurementId: "G-ZP6HG0FWJW"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        let todosItens = [];
+        let ordenacaoAtual = 'nome';
+        let buscaAtual = '';
+
+        const listaContent = document.getElementById('listaContent');
+        const searchInput = document.getElementById('searchInput');
+        const refreshBtn = document.getElementById('refreshBtn');
+        const statsCounter = document.getElementById('statsCounter');
+
+        const sortNomeBtn = document.getElementById('sortNomeBtn');
+        const sortDataPresenca = document.getElementById('sortDataPresenca');
+        const sortDataPresente = document.getElementById('sortDataPresente');
+
+        async function carregarDados() {
+            try {
+                listaContent.innerHTML = '<div class="loading"><i class="fas fa-spinner fa-spin"></i>Carregando...</div>';
+
+                const convidadosSnapshot = await getDocs(collection(db, "convidados"));
+                const presentesSnapshot = await getDocs(collection(db, "presentes"));
+
+                const dadosMap = new Map();
+
+                convidadosSnapshot.forEach((doc) => {
+                    const data = doc.data();
+                    const nome = data.nome || 'Anônimo';
+                    dadosMap.set(nome, {
+                        nome: nome,
+                        presenca: true,
+                        timestampPresenca: data.timestamp?.toDate() || new Date(),
+                        presenteData: null
+                    });
+                });
+
+                presentesSnapshot.forEach((doc) => {
+                    const data = doc.data();
+                    const nome = data.nome || 'Anônimo';
+
+                    const presenteInfo = {
+                        presentePara: data.presentePara,
+                        mensagem: data.mensagem || '',
+                        valor: data.valor,
+                        timestamp: data.timestamp?.toDate() || new Date()
+                    };
+
+                    if (dadosMap.has(nome)) {
+                        dadosMap.get(nome).presenteData = presenteInfo;
+                    } else {
+                        dadosMap.set(nome, {
+                            nome: nome,
+                            presenca: false,
+                            timestampPresenca: null,
+                            presenteData: presenteInfo
+                        });
+                    }
+                });
+
+                todosItens = Array.from(dadosMap.values());
+                atualizarLista();
+
+            } catch (error) {
+                console.error("Erro:", error);
+                listaContent.innerHTML = `<div class="sem-resultados"><i class="fas fa-exclamation-triangle"></i><br>Erro ao carregar</div>`;
+                statsCounter.textContent = 'Erro';
+            }
+        }
+
+        function filtrarLista(lista) {
+            let filtrados = [...lista];
+
+            if (buscaAtual) {
+                filtrados = filtrados.filter(item =>
+                    item.nome.toLowerCase().includes(buscaAtual.toLowerCase())
+                );
+            }
+
+            return filtrados;
+        }
+
+        function ordenarLista(lista) {
+            const ordenada = [...lista];
+
+            if (ordenacaoAtual === 'nome') {
+                ordenada.sort((a, b) => a.nome.localeCompare(b.nome, 'pt-br'));
+            } else if (ordenacaoAtual === 'dataPresenca') {
+                ordenada.sort((a, b) => {
+                    const timeA = a.timestampPresenca?.getTime() || 0;
+                    const timeB = b.timestampPresenca?.getTime() || 0;
+                    return timeB - timeA;
+                });
+            } else if (ordenacaoAtual === 'dataPresente') {
+                ordenada.sort((a, b) => {
+                    const timeA = a.presenteData?.timestamp?.getTime() || 0;
+                    const timeB = b.presenteData?.timestamp?.getTime() || 0;
+                    return timeB - timeA;
+                });
+            }
+
+            return ordenada;
+        }
+
+        function formatarData(data) {
+            if (!data) return '—';
+            return data.toLocaleDateString('pt-BR', {
+                day: '2-digit',
+                month: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function toggleDetalhes(id) {
+            const detalhe = document.getElementById(`detalhe-${id}`);
+            if (detalhe) {
+                detalhe.classList.toggle('show');
+            }
+        }
+
+        function renderizarLista(lista) {
+            if (lista.length === 0) {
+                listaContent.innerHTML = `<div class="sem-resultados"><i class="fas fa-users-slash"></i><br>Nenhum registro encontrado</div>`;
+                const totalPresenca = todosItens.filter(i => i.presenca).length;
+                statsCounter.innerHTML = `${todosItens.length} total · ${totalPresenca} confirmaram`;
+                return;
+            }
+
+            const html = `
+                <div class="lista-simples">
+                    ${lista.map((item, idx) => {
+                        const temPresenca = item.presenca;
+                        const temPresente = item.presenteData !== null;
+                        const mensagem = item.presenteData?.mensagem || '';
+                        const dataPresenca = item.timestampPresenca;
+                        const dataPresente = item.presenteData?.timestamp;
+                        const uniqueId = `item_${Date.now()}_${idx}_${item.nome.replace(/\s/g, '_')}`;
+
+                        return `
+                            <div class="item-linha">
+                                <div class="item-resumo" onclick="window.toggleDetalhes('${uniqueId}')">
+                                    <div class="item-nome">
+                                        <i class="fas fa-user"></i>
+                                        ${escapeHtml(item.nome)}
+                                    </div>
+                                    <div class="status-icons">
+                                        ${temPresenca ? '<i class="fas fa-calendar-check" title="Confirmou presença"></i>' : ''}
+                                        ${temPresente ? '<i class="fas fa-gift" title="Mandou presente"></i>' : ''}
+                                    </div>
+                                </div>
+                                <div id="detalhe-${uniqueId}" class="item-detalhes">
+                                    <div class="detalhe-info">
+                                        ${temPresenca ? `<span><i class="fas fa-calendar-check"></i> Confirmou presença em: ${formatarData(dataPresenca)}</span>` : ''}
+                                        ${temPresente ? `
+                                            <span><i class="fas fa-gift"></i> Presente para: Alicia</span>
+                                            <span><i class="fas fa-clock"></i> Data do presente: ${formatarData(dataPresente)}</span>
+                                            ${mensagem ? `<div class="mensagem-box"><i class="fas fa-comment"></i> "${escapeHtml(mensagem)}"</div>` : ''}
+                                        ` : ''}
+                                        ${!temPresenca && !temPresente ? '<span><i class="fas fa-info-circle"></i> Nenhuma interação registrada</span>' : ''}
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
+            `;
+
+            listaContent.innerHTML = html;
+
+            const totalExibidos = lista.length;
+            const totalPresenca = todosItens.filter(i => i.presenca).length;
+            statsCounter.innerHTML = `${totalExibidos} / ${todosItens.length} · ${totalPresenca} confirmaram`;
+
+            window.toggleDetalhes = toggleDetalhes;
+        }
+
+        function atualizarLista() {
+            const filtrados = filtrarLista(todosItens);
+            const ordenados = ordenarLista(filtrados);
+            renderizarLista(ordenados);
+        }
+
+        function updateSortButtons() {
+            sortNomeBtn.classList.remove('active');
+            sortDataPresenca.classList.remove('active');
+            sortDataPresente.classList.remove('active');
+            if (ordenacaoAtual === 'nome') sortNomeBtn.classList.add('active');
+            else if (ordenacaoAtual === 'dataPresenca') sortDataPresenca.classList.add('active');
+            else if (ordenacaoAtual === 'dataPresente') sortDataPresente.classList.add('active');
+        }
+
+        let debounceTimeout;
+        function handleSearch() {
+            clearTimeout(debounceTimeout);
+            debounceTimeout = setTimeout(() => {
+                buscaAtual = searchInput.value;
+                atualizarLista();
+            }, 300);
+        }
+
+        searchInput.addEventListener('input', handleSearch);
+        refreshBtn.addEventListener('click', () => carregarDados());
+
+        sortNomeBtn.addEventListener('click', () => { ordenacaoAtual = 'nome'; updateSortButtons(); atualizarLista(); });
+        sortDataPresenca.addEventListener('click', () => { ordenacaoAtual = 'dataPresenca'; updateSortButtons(); atualizarLista(); });
+        sortDataPresente.addEventListener('click', () => { ordenacaoAtual = 'dataPresente'; updateSortButtons(); atualizarLista(); });
+
+        carregarDados();
+        setInterval(() => carregarDados(), 30000);
+    </script>
+</body>
+</html>
